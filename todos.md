@@ -1,0 +1,2 @@
+- Remove environement variables
+- put each function i  a module, separation of concerns 
