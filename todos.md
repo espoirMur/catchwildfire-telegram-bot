@@ -1,2 +1,4 @@
 - Remove environement variables
 - put each function i  a module, separation of concerns 
+- Add meaninful names to function (tester in main for example)
+- remove useless function and replace it by lambda

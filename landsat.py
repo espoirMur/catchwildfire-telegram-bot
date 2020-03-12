@@ -1,15 +1,14 @@
 from nasa import earth
 from tqdm import tqdm
 import pendulum
-import pygame
 from properties import Shot
 from constants import MAX_CLOUD_SCORE
+from datetime import datetime
 
 
 class LandsatImage:
     """
     Utility class to manage the display of a landsat image using
-    pygame.
     """
 
     def __init__(self):
@@ -25,15 +24,20 @@ class LandsatImage:
         self._shot = value
         self.image = None
 
-    def blit(self, disp):
+    def save_image(self):
+        """
+        this save the image to a path
+        in the bot it will show it to the user
+        
+        Args:
+            disp ([display]): the display
+        """
         if not self.image:
             img = self.shot.image
             pil_img = img.image
-            buf = pil_img.tobytes()
-            size = pil_img.width, pil_img.height
-            self.image = pygame.image.frombuffer(buf, size, 'RGB')
-
-        disp.blit(self.image, (0, 0))
+            image_path = './images/image_{}.png'.format(datetime.now())
+            pil_img.save(image_path)
+            self.image = image_path
 
 
 class LandsatBisector:
@@ -90,10 +94,3 @@ class LandsatBisector:
                 out.append(Shot(asset, img))
 
         return out
-
-    def blit(self, disp):
-        """
-        Draws the current picture.
-        """
-
-        self.image.blit(disp)
