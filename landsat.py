@@ -28,7 +28,7 @@ class LandsatImage:
         """
         this save the image to a path
         in the bot it will show it to the user
-        
+
         Args:
             disp ([display]): the display
         """

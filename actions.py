@@ -29,6 +29,7 @@ def bisect(n, mapper, tester):
 
     return mapper(right)
 
+
 def confirm(title):
     """
     Asks a yes/no question to the user
@@ -39,3 +40,16 @@ def confirm(title):
         'name': 'confirm',
         'message': f'{title} - do you see it?',
     }])['confirm']
+
+
+def display_current_canditate(candidate, bisector):
+    """
+    Displays the current candidate to the user and asks them to
+    check if they see wildfire damages.
+    candidate : the candidate to display
+    bisector : the bisector instance
+    """
+
+    bisector.index = candidate
+    bisector.image.save_image()
+    return confirm(bisector.date)

@@ -1,7 +1,8 @@
-from constants import DISPLAY_SIZE, BLACK, LON, LAT
+from constants import LON, LAT
 from landsat import LandsatBisector
-from actions import bisect, confirm
+from actions import bisect, display_current_canditate
 from dotenv import load_dotenv
+from functools import partial
 
 
 load_dotenv()
@@ -11,26 +12,18 @@ load_dotenv()
 def main():
     """
     Runs a bisection algorithm on a series of Landsat pictures in order
-    for the user to find the approximative date of the fire.
+    for the user to find the approximates date of the fire.
 
     Images are displayed using pygame, but the interactivity happens in
     the terminal as it is much easier to do.
     """
     bisector = LandsatBisector(LON, LAT)
-
-    def display_current_canditate(candidate, bisector):
-        """
-        Displays the current candidate to the user and asks them to
-        check if they see wildfire damages.
-        candidate : the candidate to display
-        bisector : the bisector instance
-        """
-
-        bisector.index = candidate
-        bisector.image.save_image()
-        return confirm(bisector.date)
-
-    culprit = bisect(bisector.count, lambda x: x, display_current_canditate)
+    culprit = bisect(
+        bisector.count,
+        lambda x: x,
+        partial(
+            display_current_canditate,
+            bisector=bisector))
     bisector.index = culprit
     print(f"Found! First apparition = {bisector.date}")
     exit()
