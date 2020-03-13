@@ -1,4 +1,4 @@
-import requests  
+import requests
 from bottle import Bottle, response, request as bottle_request
 
 
@@ -25,7 +25,7 @@ class BotHandlerMixin:
         """
         Prepared data should be json which includes at least
         `chat_id` and `text`
-        """       
+        """
         message_url = self.BOT_URL + 'sendMessage'
         requests.post(message_url, json=prepared_data)
 

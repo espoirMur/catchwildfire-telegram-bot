@@ -4,32 +4,34 @@ import logging
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 def start(update, context):
     """
-    When a user click start it start the bot and display the 
+    When a user click start it start the bot and display the
     keyboard when he will reply by yes or now
-    
+
     Args:
-        update ([type]): [description]
-        context ([type]): [description]
+        bot: the bot instance
+        context: context instance
     """
     keyboard = [[InlineKeyboardButton("Yes", callback_data='1'),
                  InlineKeyboardButton("No", callback_data='0')]]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
-
+    context.bot.send_photo(update.effective_chat.id,
+                           open('images/my_avatar.png', 'rb'))
     update.message.reply_text('Did you see it?:', reply_markup=reply_markup)
 
 
 def button(update, context):
     """
     Handle the reply and send back the message to the user
-    
+
     Args:
         update ([type]): [description]
         context ([type]): [description]
