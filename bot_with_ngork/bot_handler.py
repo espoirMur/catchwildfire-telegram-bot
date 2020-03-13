@@ -28,3 +28,6 @@ class BotHandlerMixin:
         """       
         message_url = self.BOT_URL + 'sendMessage'
         requests.post(message_url, json=prepared_data)
+
+    def send_pool():
+        pass
