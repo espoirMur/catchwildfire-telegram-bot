@@ -1,11 +1,8 @@
 from constants import LON, LAT
 from landsat import LandsatBisector
 from actions import bisect, display_current_canditate
-from dotenv import load_dotenv
 from functools import partial
-
-
-load_dotenv()
+from config import NASA_API_KEY
 
 
 # keep only main here
