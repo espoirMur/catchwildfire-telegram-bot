@@ -4,7 +4,8 @@ import pendulum
 from properties import Shot
 from constants import MAX_CLOUD_SCORE
 from datetime import datetime
-
+from utils import create_test_image
+from io import BytesIO
 
 class LandsatImage:
     """
@@ -33,11 +34,17 @@ class LandsatImage:
             disp ([display]): the display
         """
         if not self.image:
-            img = self.shot.image
-            pil_img = img.image
-            image_path = './images/image_{}.png'.format(datetime.now())
-            pil_img.save(image_path)
-            self.image = image_path
+            # TODO : Uncoment in reallife
+            # img = self.shot.image
+            """image_path = './images/image_{}'.format(datetime.now())
+            picture_bytes = BytesIO()
+            picture_bytes.name = image_path
+            pil_img.save(picture_bytes, 'JPEG')
+            picture_bytes.seek(0)
+            print(picture_bytes, '=====the image ====')
+            self.image = picture_byte"""
+            print(self.shot)
+            return self.shot
 
 
 class LandsatBisector:
@@ -48,7 +55,7 @@ class LandsatBisector:
 
     def __init__(self, lon, lat):
         self.lon, self.lat = lon, lat
-        self.shots = self.get_shots()
+        self.shots = self.get_fake_shots()
         self.image = LandsatImage()
         self.index = 0
 
@@ -94,3 +101,9 @@ class LandsatBisector:
                 out.append(Shot(asset, img))
 
         return out
+
+    def get_fake_shots(self):
+        """
+        this is for testing purpose
+        """
+        return [create_test_image() for _ in range(0, 6)]

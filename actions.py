@@ -42,14 +42,21 @@ def confirm(title):
     }])['confirm']
 
 
-def display_current_canditate(candidate, bisector):
+def display_current_canditate(candidate, bisector, bot):
     """
     Displays the current candidate to the user and asks them to
     check if they see wildfire damages.
     candidate : the candidate to display
     bisector : the bisector instance
+    bot: the telegram bot
     """
 
     bisector.index = candidate
-    bisector.image.save_image()
-    return confirm(bisector.date)
+    chat_id = bot.get_updates()[-1].message.chat_id
+    image = bisector.image.save_image()
+    bot.send_message_with_picture(
+        chat_id=chat_id,
+        picture=bisector.image,
+        date=bisector.date)
+    # should return the selcted action from users
+    return True
