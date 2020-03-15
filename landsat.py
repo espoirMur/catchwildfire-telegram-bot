@@ -7,6 +7,7 @@ from datetime import datetime
 from utils import create_test_image
 from io import BytesIO
 
+
 class LandsatImage:
     """
     Utility class to manage the display of a landsat image using
@@ -34,7 +35,7 @@ class LandsatImage:
             disp ([display]): the display
         """
         if not self.image:
-            # TODO : Uncoment in reallife
+            # TODO : Uncomment in reallife
             # img = self.shot.image
             """image_path = './images/image_{}'.format(datetime.now())
             picture_bytes = BytesIO()

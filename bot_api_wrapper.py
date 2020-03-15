@@ -27,11 +27,13 @@ class MyTelegramBot(telegram.Bot):
             date : bisector date
         """
         reply_markup = self.build_inline_keyboard()
-        self.send_photo(
+        message = self.send_photo(
             chat_id,
             photo=open('./images/image_2020.png', 'rb'),
             reply_markup=reply_markup,
-            caption=f'Did you see it?{date}')
+            caption=f'Did you see it? {date}')
+        print(message, '=' * 100)
+        return message
 
     def get_chat_id(self):
         """

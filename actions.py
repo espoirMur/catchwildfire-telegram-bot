@@ -1,5 +1,3 @@
-from PyInquirer import prompt
-
 
 def bisect(n, mapper, tester):
     """
@@ -21,8 +19,8 @@ def bisect(n, mapper, tester):
         mid = int((left + right) / 2)
 
         val = mapper(mid)
-
-        if tester(val):
+        tester_values = tester(val)
+        if tester_values:
             right = mid
         else:
             left = mid
@@ -30,19 +28,7 @@ def bisect(n, mapper, tester):
     return mapper(right)
 
 
-def confirm(title):
-    """
-    Asks a yes/no question to the user
-    """
-
-    return prompt([{
-        'type': 'confirm',
-        'name': 'confirm',
-        'message': f'{title} - do you see it?',
-    }])['confirm']
-
-
-def display_current_canditate(candidate, bisector, bot):
+def display_current_canditate(candidate, bisector, bot, call):
     """
     Displays the current candidate to the user and asks them to
     check if they see wildfire damages.
@@ -53,10 +39,9 @@ def display_current_canditate(candidate, bisector, bot):
 
     bisector.index = candidate
     chat_id = bot.get_updates()[-1].message.chat_id
-    image = bisector.image.save_image()
-    bot.send_message_with_picture(
+    bot.send_photo(
         chat_id=chat_id,
         picture=bisector.image,
-        date=bisector.date)
-    # should return the selcted action from users
-    return True
+        date=bisector.date,
+        caption=f"Did you see it Yes or No {bisector.date}")
+    return eval(call.data)
