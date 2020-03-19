@@ -1,70 +1,61 @@
 from config import TELEGRAM_BOT_TOKEN
-import logging
+from itertools import repeat
+from functools import partial
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO)
-logger = logging.getLogger(__name__)
+user_dict = {}
 
 
-def start(update, context):
-    """
-    When a user click start it start the bot and display the
-    keyboard when he will reply by yes or now
-
-    Args:
-        bot: the bot instance
-        context: context instance
-    """
-    keyboard = [[InlineKeyboardButton("Yes", callback_data='1'),
-                 InlineKeyboardButton("No", callback_data='0')]]
-
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    context.bot.send_photo(update.effective_chat.id,
-                           open('images/my_avatar.png', 'rb'))
-    update.message.reply_text('Did you see it?:', reply_markup=reply_markup)
+class User:
+    def __init__(self, name):
+        self.name = name
+        self.age = None
+        self.sex = None
+        self.response = dict(zip(range(0, 7),  repeat(None)))
 
 
-def button(update, context):
-    """
-    Handle the reply and send back the message to the user
-
-    Args:
-        update ([type]): [description]
-        context ([type]): [description]
-    """
-    query = update.callback_query
-
-    query.edit_message_text(text="Selected option: {}".format(query.data))
+# Handle '/start' and '/help'
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+    markup.add('Yes', 'No')
+    indice = 0
+    message = bot.reply_to(message, f'Did You see it? {0}', reply_markup=markup)
+    bot.register_next_step_handler(message, partial(process_step, indice))
 
 
-def help(update, context):
-    update.message.reply_text("Use /start to test this bot.")
+def process_step(indice, message):
+    user_id = message.from_user.id
+    response = message.text
+    if user_dict.get(user_id):
+        user = user_dict.get(user_id)
+    else:
+        user = User(user_id)
+        user_dict[user_id] = user
+    if indice < 7:
+        indice += 1
+        try:
+            # get or create
+            user.response[indice] = response
+            markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+            markup.add('Yes', 'No')
+            message = bot.reply_to(message, f'Did You see it? {indice}', reply_markup=markup)
+            bot.register_next_step_handler(message, partial(process_step, indice))
+        except Exception as e:
+            bot.reply_to(message, 'oooops')
+    else:
+        ## send peform the algorithms on results and clear everything
+        bot.reply_to(message, f'Thanks for using the game {user.response}')
 
 
-def error(update, context):
-    """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, context.error)
+# Enable saving next step handlers to file "./.handlers-saves/step.save".
+# Delay=2 means that after any change in next step handlers (e.g. calling register_next_step_handler())
+# saving will hapen after delay 2 seconds.
+bot.enable_save_next_step_handlers(delay=2)
 
+# Load next_step_handlers from save file (default "./.handlers-saves/step.save")
+# WARNING It will work only if enable_save_next_step_handlers was called!
+bot.load_next_step_handlers()
 
-def main():
-    updater = Updater(TELEGRAM_BOT_TOKEN, use_context=True)
-
-    updater.dispatcher.add_handler(CommandHandler('start', start))
-    updater.dispatcher.add_handler(CallbackQueryHandler(button))
-    updater.dispatcher.add_handler(CommandHandler('help', help))
-    updater.dispatcher.add_error_handler(error)
-
-    # Start the Bot
-    updater.start_polling()
-
-    # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT
-    updater.idle()
-
-
-if __name__ == '__main__':
-    main()
+bot.polling()
