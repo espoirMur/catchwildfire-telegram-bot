@@ -13,7 +13,7 @@ class User:
         self.name = name
         self.age = None
         self.sex = None
-        self.responses = dict(zip(dates,  repeat(None)))
+        self.responses = dict(zip(dates, repeat(None)))
 
     @staticmethod
     def create_get_user(message, bisector):
