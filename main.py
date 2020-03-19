@@ -1,6 +1,6 @@
 from constants import LON, LAT
 from landsat import LandsatBisector
-from actions import bisect, display_current_canditate
+from actions import bisect
 from functools import partial
 from config import NASA_API_KEY, TELEGRAM_BOT_TOKEN
 from bot_telepot import bot, gen_markup, create_inital_marlkup
