@@ -25,27 +25,13 @@ class LandsatImage:
     def shot(self, value):
         self._shot = value
         self.image = None
-
-    def save_image(self):
-        """
-        this save the image to a path
-        in the bot it will show it to the user
-
-        Args:
-            disp ([display]): the display
-        """
-        if not self.image:
-            # TODO : Uncomment in reallife
-            # img = self.shot.image
-            """image_path = './images/image_{}'.format(datetime.now())
-            picture_bytes = BytesIO()
-            picture_bytes.name = image_path
-            pil_img.save(picture_bytes, 'JPEG')
-            picture_bytes.seek(0)
-            print(picture_bytes, '=====the image ====')
-            self.image = picture_byte"""
-            print(self.shot)
-            return self.shot
+    
+    def blit(self):
+        img = self.shot.image
+        pil_img = img.image
+        buf = pil_img.tobytes()
+        self.image = buf
+        return self.image
 
 
 class LandsatBisector:
@@ -56,7 +42,7 @@ class LandsatBisector:
 
     def __init__(self, lon, lat):
         self.lon, self.lat = lon, lat
-        self.shots = self.get_fake_shots()
+        self.shots = self.get_shots()
         self.image = LandsatImage()
         self.index = 0
 

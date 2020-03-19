@@ -24,7 +24,7 @@ def send_current_candidate(bot, message, bisector, current_canditate_index):
     chat_id = message.chat.id
     message = bot.send_photo(
         chat_id=chat_id,
-        photo=bisector.image.shot,
+        photo=bisector.image.blit(),
         caption=f"Did you see it Yes or No {bisector.date}",
         reply_markup=markup)
     return message

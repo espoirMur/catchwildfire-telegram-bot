@@ -17,6 +17,7 @@ user_dict = {}
 # Handle '/start' and '/help'
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
+    # how to handle loading...
     bisector = LandsatBisector(LON, LAT)
     indice = 0
     message = send_current_candidate(bot, message, bisector, indice)
