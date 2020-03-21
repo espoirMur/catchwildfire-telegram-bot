@@ -1,4 +1,3 @@
-
 def bisect(n, mapper, tester):
     """
     Runs a bisection.
@@ -28,7 +27,7 @@ def bisect(n, mapper, tester):
     return mapper(right)
 
 
-def evaluation_function(index, responses=[]):
+def tester_function(index, responses=[]):
     """
     this function takes an array of user input and the index
     and return a message with the response at the given index
@@ -36,5 +35,4 @@ def evaluation_function(index, responses=[]):
     index : integer
     """
     response = responses[index].lower()
-    true_values = ['true', '1', 't', 'y', 'yes', 'yeah', 'yup', 'certainly', 'uh-huh']
-    return response.lower() in true_values
+    return response.lower() == 'yes'

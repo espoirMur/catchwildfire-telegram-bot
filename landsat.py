@@ -3,7 +3,6 @@ from tqdm import tqdm
 import pendulum
 from properties import Shot
 from constants import MAX_CLOUD_SCORE
-from datetime import datetime
 from utils import create_test_image
 from io import BytesIO
 
@@ -26,11 +25,19 @@ class LandsatImage:
         self._shot = value
         self.image = None
     
-    def blit(self):
+    def generate_image_bytes(self):
+        """
+        Create an image bytes that can be send to telegram
+        Returns:
+            Image : Image bytes
+        """
         img = self.shot.image
         pil_img = img.image
-        buf = pil_img.tobytes()
-        self.image = buf
+        image_bytes = BytesIO()
+        image_bytes.name = 'image.png'
+        pil_img.save(image_bytes, 'PNG')
+        image_bytes.seek(0)
+        self.image = image_bytes
         return self.image
 
 

@@ -1,13 +1,4 @@
-from constants import LON, LAT
-from landsat import LandsatBisector
-from actions import bisect
-from functools import partial
-from config import NASA_API_KEY, TELEGRAM_BOT_TOKEN
-from bot_telepot import bot, gen_markup, create_inital_marlkup
-
-bisector = None
-chat_id = ''
-
+from bot import bot
 
 if __name__ == '__main__':
     bot.enable_save_next_step_handlers(delay=2)

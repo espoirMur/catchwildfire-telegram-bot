@@ -7,7 +7,7 @@ from bot.messages import send_current_candidate
 from landsat import LandsatBisector
 from constants import LON, LAT
 from config import NASA_API_KEY
-from actions import evaluation_function, bisect
+from actions import tester_function, bisect
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
@@ -45,13 +45,7 @@ def process_step(indice, bisector, message):
         culprit = bisect(bisector.count,
                          lambda x: x,
                          partial(
-                             evaluation_function,
+                             tester_function,
                              responses=list(user.responses.values())))
         bisector.index = culprit
-        print(f"Found! First apparition = {bisector.date}")
         bot.reply_to(message, f"Found! First apparition = {bisector.date}")
-
-
-# Enable saving next step handlers to file "./.handlers-saves/step.save".
-# Delay=2 means that after any change in next step handlers (e.g. calling register_next_step_handler())
-# saving will hapens after delay 2 seconds.

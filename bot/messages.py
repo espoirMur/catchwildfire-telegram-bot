@@ -4,6 +4,7 @@ from telebot.types import ReplyKeyboardMarkup
 def build_reply_markup():
     """
     Build the telegram reply markup
+    return : the reply keyboard markup object
     """
     markup = ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.add('Yes', 'No')
@@ -24,7 +25,7 @@ def send_current_candidate(bot, message, bisector, current_canditate_index):
     chat_id = message.chat.id
     message = bot.send_photo(
         chat_id=chat_id,
-        photo=bisector.image.blit(),
+        photo=bisector.image.generate_image_bytes(),
         caption=f"Did you see it Yes or No {bisector.date}",
         reply_markup=markup)
     return message
