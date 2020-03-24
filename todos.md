@@ -6,3 +6,5 @@
 
 - [] Make sure I understand the bisection algorithm
 - Add code climate and maintainability badge to the project
+- [] Make it interactive with multiple users
+- [] remove useless code for the bot
