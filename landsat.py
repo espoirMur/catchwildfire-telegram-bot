@@ -89,7 +89,7 @@ class LandsatBisector:
         assets = earth.assets(lat=self.lat, lon=self.lon, begin=begin, end=end)
 
         out = []
-        print(len(assets))
+        
         for asset in tqdm(assets):
             img = asset.get_asset_image(cloud_score=True)
 
