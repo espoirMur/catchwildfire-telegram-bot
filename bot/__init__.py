@@ -49,3 +49,4 @@ def process_step(indice, bisector, message):
                              responses=list(user.responses.values())))
         bisector.index = culprit
         bot.reply_to(message, f"Found! First apparition = {bisector.date}")
+        # TODO: delete the user from the user dict

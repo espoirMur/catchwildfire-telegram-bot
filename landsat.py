@@ -82,12 +82,14 @@ class LandsatBisector:
         """
 
         begin = '2000-01-01'
-        end = pendulum.now('UTC').date().isoformat()
-
+        end = pendulum.now('UTC').subtract(weeks=3).date().isoformat()
+        
+        ## as of now the pendilum is retuning 62 images
+        # let limit them to 7 days and check how many results will be returned
         assets = earth.assets(lat=self.lat, lon=self.lon, begin=begin, end=end)
 
         out = []
-
+        print(len(assets))
         for asset in tqdm(assets):
             img = asset.get_asset_image(cloud_score=True)
 
