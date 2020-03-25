@@ -5,6 +5,11 @@ from collections import namedtuple
 
 
 def create_test_image():
+    """
+    Generate a fake image for testing purpose
+    Returns:
+        [type]: [description]
+    """
     file = BytesIO()
     image = Image.open('./images/my_avatar.png')
     image.save(file, 'png')

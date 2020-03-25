@@ -3,7 +3,6 @@ from tqdm import tqdm
 import pendulum
 from properties import Shot
 from constants import MAX_CLOUD_SCORE
-from datetime import datetime
 from utils import create_test_image
 from io import BytesIO
 
@@ -25,27 +24,21 @@ class LandsatImage:
     def shot(self, value):
         self._shot = value
         self.image = None
-
-    def save_image(self):
+    
+    def generate_image_bytes(self):
         """
-        this save the image to a path
-        in the bot it will show it to the user
-
-        Args:
-            disp ([display]): the display
+        Create an image bytes that can be send to telegram
+        Returns:
+            Image : Image bytes
         """
-        if not self.image:
-            # TODO : Uncomment in reallife
-            # img = self.shot.image
-            """image_path = './images/image_{}'.format(datetime.now())
-            picture_bytes = BytesIO()
-            picture_bytes.name = image_path
-            pil_img.save(picture_bytes, 'JPEG')
-            picture_bytes.seek(0)
-            print(picture_bytes, '=====the image ====')
-            self.image = picture_byte"""
-            print(self.shot)
-            return self.shot
+        img = self.shot.image
+        pil_img = img.image
+        image_bytes = BytesIO()
+        image_bytes.name = 'image.png'
+        pil_img.save(image_bytes, 'PNG')
+        image_bytes.seek(0)
+        self.image = image_bytes
+        return self.image
 
 
 class LandsatBisector:
@@ -56,7 +49,7 @@ class LandsatBisector:
 
     def __init__(self, lon, lat):
         self.lon, self.lat = lon, lat
-        self.shots = self.get_fake_shots()
+        self.shots = self.get_shots()
         self.image = LandsatImage()
         self.index = 0
 
@@ -89,12 +82,14 @@ class LandsatBisector:
         """
 
         begin = '2000-01-01'
-        end = pendulum.now('UTC').date().isoformat()
-
+        end = pendulum.now('UTC').subtract(weeks=3).date().isoformat()
+        
+        ## as of now the pendilum is retuning 62 images
+        # let limit them to 7 days and check how many results will be returned
         assets = earth.assets(lat=self.lat, lon=self.lon, begin=begin, end=end)
 
         out = []
-
+        print(len(assets))
         for asset in tqdm(assets):
             img = asset.get_asset_image(cloud_score=True)
 

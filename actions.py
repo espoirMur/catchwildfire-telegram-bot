@@ -1,4 +1,3 @@
-
 def bisect(n, mapper, tester):
     """
     Runs a bisection.
@@ -28,20 +27,12 @@ def bisect(n, mapper, tester):
     return mapper(right)
 
 
-def display_current_canditate(candidate, bisector, bot, call):
+def tester_function(index, responses=[]):
     """
-    Displays the current candidate to the user and asks them to
-    check if they see wildfire damages.
-    candidate : the candidate to display
-    bisector : the bisector instance
-    bot: the telegram bot
+    this function takes an array of user input and the index
+    and return a message with the response at the given index
+    response : array
+    index : integer
     """
-
-    bisector.index = candidate
-    chat_id = bot.get_updates()[-1].message.chat_id
-    bot.send_photo(
-        chat_id=chat_id,
-        picture=bisector.image,
-        date=bisector.date,
-        caption=f"Did you see it Yes or No {bisector.date}")
-    return eval(call.data)
+    response = responses[index].lower()
+    return response.lower() == 'yes'
