@@ -1,10 +1,31 @@
+import telebot
+import logging
 from bot import bot
+from config import TELEGRAM_BOT_TOKEN
+from flask import Flask, request
+from telebot.types import Update
+
+
+logger = telebot.logger
+telebot.logger.setLevel(logging.DEBUG) 
+
+app = Flask(__name__)
+
+@app.route(f'/{TELEGRAM_BOT_TOKEN}', methods=['POST'])
+def getMessage():
+    bot.process_new_updates([Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+
+@app.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url=f'https://catch-wildfire-telegram-bot.herokuapp.com/{TELEGRAM_BOT_TOKEN}')
+    return "!", 200
+
 
 if __name__ == '__main__':
     bot.enable_save_next_step_handlers(delay=2)
-
-    # Load next_step_handlers from save file (default "./.handlers-saves/step.save")
-    # WARNING It will work only if enable_save_next_step_handlers was called!
     bot.load_next_step_handlers()
 
-    bot.polling()
+    app.run(host="0.0.0.0", port=5000)
