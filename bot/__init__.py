@@ -1,17 +1,15 @@
 import telebot
-
-from config import TELEGRAM_BOT_TOKEN
+from config import TELEGRAM_BOT_TOKEN, NASA_API_KEY
 from functools import partial
-from bot.user import User
+from bot.user import User, user_dict
 from bot.messages import send_current_candidate
 from landsat import LandsatBisector
 from constants import LON, LAT
-from config import NASA_API_KEY
 from actions import tester_function, bisect
+
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
-user_dict = {}
 
 
 # Handle '/start' and '/help'
@@ -50,3 +48,4 @@ def process_step(indice, bisector, message):
         bisector.index = culprit
         bot.reply_to(message, f"Found! First apparition = {bisector.date}")
         # TODO: delete the user from the user dict
+        del user_dict[message.from_user.id]

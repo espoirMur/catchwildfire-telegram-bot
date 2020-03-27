@@ -16,7 +16,6 @@ def bisect(n, mapper, tester):
 
     while left + 1 < right:
         mid = int((left + right) / 2)
-
         val = mapper(mid)
         tester_values = tester(val)
         if tester_values:

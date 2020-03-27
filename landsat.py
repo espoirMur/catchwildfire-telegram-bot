@@ -3,7 +3,6 @@ from tqdm import tqdm
 import pendulum
 from properties import Shot
 from constants import MAX_CLOUD_SCORE
-from utils import create_test_image
 from io import BytesIO
 
 
@@ -82,14 +81,14 @@ class LandsatBisector:
         """
 
         begin = '2000-01-01'
-        end = pendulum.now('UTC').subtract(weeks=3).date().isoformat()
-        
+        end = pendulum.now('UTC').date().isoformat()
+           
         ## as of now the pendilum is retuning 62 images
         # let limit them to 7 days and check how many results will be returned
         assets = earth.assets(lat=self.lat, lon=self.lon, begin=begin, end=end)
 
         out = []
-        
+
         for asset in tqdm(assets):
             img = asset.get_asset_image(cloud_score=True)
 
@@ -97,9 +96,3 @@ class LandsatBisector:
                 out.append(Shot(asset, img))
 
         return out
-
-    def get_fake_shots(self):
-        """
-        this is for testing purpose
-        """
-        return [create_test_image() for _ in range(0, 6)]
