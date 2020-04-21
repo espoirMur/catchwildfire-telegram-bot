@@ -2,3 +2,4 @@
 ***.pyc
 .handler-saves/step.save
 htmlcov
+.env

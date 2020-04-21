@@ -31,7 +31,7 @@ The bot works for now with  2 commands
 
     $ git clone https://github.com/espoirMur/catchwildfire-telegram-bot.git
     $ cd catchwildfire-telegram-bot
-    $ pip install -r requirements.tx
+    $ pip install -r requirements.txt
 
 Create .env file
 create a .env and add the following elements

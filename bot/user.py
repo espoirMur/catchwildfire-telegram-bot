@@ -4,7 +4,7 @@ user_dict = {}
 
 
 class User:
-    def __init__(self, name, dates=[]):
+    def __init__(self, name, indexes=[]):
         """users with name
         Args:
             name ([type]): [description]
@@ -13,7 +13,7 @@ class User:
         self.name = name
         self.age = None
         self.sex = None
-        self.responses = dict(zip(dates, repeat(None)))
+        self.responses = dict(zip(indexes, repeat(None)))
 
     @staticmethod
     def create_get_user(message, bisector):
@@ -26,7 +26,7 @@ class User:
         if user_dict.get(user_id):
             user = user_dict.get(user_id)
         else:
-            dates = [shot.asset.date for shot in bisector.shots]
-            user = User(user_id, dates=dates)
+            indexes = range(bisector.video.frames)
+            user = User(user_id, indexes=indexes)
             user_dict[user_id] = user
         return user

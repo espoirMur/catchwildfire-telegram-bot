@@ -21,6 +21,9 @@ jobs:
     - name: Run tests 
       run: |
         coverage run -m nose2 --coverage coverage
+    - name: Remove old handlers
+      run : |
+        rm -fr .handler-saves
     - name: Login to Heroku Container registry
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}

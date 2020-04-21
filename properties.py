@@ -1,4 +1,19 @@
-from typing import NamedTuple, Any
+from typing import NamedTuple, List, Text
+
+
+class Video(NamedTuple):
+    """
+    That's a video from the API
+    """
+
+    name: Text
+    width: int
+    height: int
+    frames: int
+    frame_rate: List[int]
+    url: Text
+    first_frame: Text
+    last_frame: Text
 
 
 class Size(NamedTuple):
@@ -10,21 +25,4 @@ class Size(NamedTuple):
     height: int
 
 
-class Color(NamedTuple):
-    """
-    8-bit components of a color
-    """
-
-    red: int
-    green: int
-    blue: int
-
-
-class Shot(NamedTuple):
-    """
-    Represents a shot from Landsat. The asset is the output of the listing
-    and the image contains details about the actual image.
-    """
-
-    asset: Any
-    image: Any
+DISPLAY_SIZE = Size(int(480 * 1.5), int(270 * 1.5))
