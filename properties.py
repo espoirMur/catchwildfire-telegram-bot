@@ -25,4 +25,4 @@ class Size(NamedTuple):
     height: int
 
 
-DISPLAY_SIZE = Size(320, 160)
+DISPLAY_SIZE = Size(int(480 * 1.5), int(270 * 1.5))

@@ -23,10 +23,10 @@ class Frame:
             Image : Image bytes
         """
         if not self.image:
-            pil_img = Image.new('RGBA', size=DISPLAY_SIZE)
-            image_bytes = io.BytesIO(self.data)
-            image_bytes.name = 'image.png'
-            pil_img.save(image_bytes, 'PNG')
+            pil_img = Image.open(io.BytesIO(self.data))
+            pil_img = pil_img.resize(DISPLAY_SIZE, Image.ANTIALIAS)
+            image_bytes = io.BytesIO()
+            pil_img.save(image_bytes, 'PNG', optimize=True, quality=95)
             image_bytes.seek(0)
             self.image = image_bytes
         return self.image
@@ -46,6 +46,7 @@ class FrameX:
         """
         Fetches information about a video
         """
+
         r = self.client.get(urljoin(self.BASE_URL, f"video/{quote(video)}/"))
         r.raise_for_status()
         return Video(**r.json())
@@ -54,6 +55,7 @@ class FrameX:
         """
         Fetches the JPEG data of a single frame
         """
+
         r = self.client.get(
             urljoin(self.BASE_URL, f'video/{quote(video)}/frame/{quote(f"{frame}")}/')
         )
