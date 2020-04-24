@@ -8,6 +8,12 @@ cryptography==2.8
 decorator==4.4.2
 Flask==1.1.1
 future==0.18.2
+h11==0.9.0
+h2==3.2.0
+hpack==3.0.0
+hstspreload==2020.4.21
+httpx==0.12.1
+hyperframe==5.2.0
 idna==2.9
 itsdangerous==1.1.0
 Jinja2==2.11.1
@@ -28,7 +34,9 @@ python-telegram-bot==12.4.2
 pytzdata==2019.3
 regex==2020.2.20
 requests==2.23.0
+rfc3986==1.4.0
 six==1.14.0
+sniffio==1.1.0
 tornado==6.0.4
 tqdm==4.32.1
 urllib3==1.25.8

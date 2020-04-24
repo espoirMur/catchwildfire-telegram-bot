@@ -6,7 +6,7 @@
 
 ## Motivation
 
-This was given as test for an interview for software Engineer.
+This was given as test for software Engineer role.
 
 ## Bot link
 
