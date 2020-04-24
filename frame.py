@@ -46,7 +46,6 @@ class FrameX:
         """
         Fetches information about a video
         """
-
         r = self.client.get(urljoin(self.BASE_URL, f"video/{quote(video)}/"))
         r.raise_for_status()
         return Video(**r.json())
@@ -55,7 +54,6 @@ class FrameX:
         """
         Fetches the JPEG data of a single frame
         """
-
         r = self.client.get(
             urljoin(self.BASE_URL, f'video/{quote(video)}/frame/{quote(f"{frame}")}/')
         )
