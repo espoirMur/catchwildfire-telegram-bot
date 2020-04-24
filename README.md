@@ -35,10 +35,11 @@ The bot works for now with  2 commands
 
 Create .env file
 create a .env and add the following elements
-```
-NASA_API_KEY=''
-TELEGRAM_BOT_TOKEN=''
 
+```
+TELEGRAM_BOT_TOKEN=''
+API_BASE='https://framex-dev.wadrid.net/api/'
+VIDEO_NAME='Falcon Heavy Test Flight (Hosted Webcast)-wbSwFU6tY1c'
 ```
 
 
